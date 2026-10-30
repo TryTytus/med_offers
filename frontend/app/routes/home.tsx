@@ -4,13 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import Poster from "~/components/poster";
 
 
-useQuery({
-  queryKey: ['posters'],
-  queryFn: async () => {
-    await fetch('http://localhost:8000/')
-  }
-})
-
 const CustomMain = styled('main')({
   width: '60%',
   margin: '0px auto',
@@ -24,7 +17,18 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+
+
+  const posters = useQuery({
+    queryKey: ['posters'],
+    queryFn: async () => {
+      const response  = await fetch('http://localhost:8000/posters')
+      const data = await response.json()
+      return data
+    }
+  })
+
   return <CustomMain>
-      <Poster />
+      {posters?.data?.map(poster => (<Poster key={poster.id} />))}
   </CustomMain>
 }
