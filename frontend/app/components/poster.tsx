@@ -5,6 +5,7 @@ import type { Poster as PosterModel } from "~/api/generated";
 
 const CustomCard = styled(Card)({
   borderRadius: 0,
+  marginBottom: 20
 })
 
 type PosterProps = Pick<PosterModel, "title" | "description">;
