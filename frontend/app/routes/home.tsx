@@ -1,6 +1,7 @@
 import type { Route } from "./+types/home";
 import { styled } from '@mui/material/styles';
 import { useQuery } from "@tanstack/react-query";
+import { postersApi } from "~/api/client";
 import Poster from "~/components/poster";
 
 
@@ -21,14 +22,16 @@ export default function Home() {
 
   const posters = useQuery({
     queryKey: ['posters'],
-    queryFn: async () => {
-      const response  = await fetch('http://localhost:8000/posters')
-      const data = await response.json()
-      return data
-    }
+    queryFn: () => postersApi.getPosters(),
   })
 
   return <CustomMain>
-      {posters?.data?.map(poster => (<Poster key={poster.id} />))}
+      {posters.data?.map((poster, index) => (
+        <Poster
+          key={poster.id}
+          title={poster.title}
+          description={poster.description}
+        />
+      ))}
   </CustomMain>
 }

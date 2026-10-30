@@ -1,12 +1,15 @@
 import { Button, CardActions, CardContent, Typography, Card } from "@mui/material";
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
+import type { Poster as PosterModel } from "~/api/generated";
 
 const CustomCard = styled(Card)({
   borderRadius: 0,
 })
 
-function Poster() {
+type PosterProps = Pick<PosterModel, "title" | "description">;
+
+function Poster({ title, description }: PosterProps) {
     return <CustomCard variant="outlined">
         <React.Fragment>
       <CardContent>
@@ -14,11 +17,11 @@ function Poster() {
           Katowice
         </Typography>
         <Typography variant="h5" component="div">
-          Sprzedam rezonans magentyczny
+          {title}
         </Typography>
         <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>Kategoria</Typography>
         <Typography variant="body2">
-          opis
+          {description}
           <br />
           {'"a benevolent smile"'}
         </Typography>

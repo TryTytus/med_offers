@@ -34,6 +34,19 @@ npm run dev
 
 Your application will be available at `http://localhost:5173`.
 
+## Generated API client
+
+The FastAPI OpenAPI schema is the source of truth for the generated TypeScript
+models and Fetch client. After changing an endpoint or a response model, run:
+
+```bash
+pnpm generate:api
+```
+
+This exports `backend/openapi.json` and regenerates `app/api/generated`. Do not
+edit files in that generated directory by hand. Set `VITE_API_URL` when the API
+is not available at `http://localhost:8000`.
+
 ## Building for Production
 
 Create a production build:

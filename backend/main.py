@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from typing import Sequence
 
 from database import SessionDep, init_db
 from fastapi import FastAPI
@@ -19,7 +20,11 @@ origins = [
 ]
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title="Med Offers API",
+    version="0.1.0",
+    lifespan=lifespan,
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,7 +34,11 @@ app.add_middleware(
     allow_methods=["*"],
 )
 
-@app.get('/posters')
-async def posters(session: SessionDep):
+@app.get(
+    "/posters",
+    operation_id="get_posters",
+    response_model=Sequence[Poster],
+    tags=["posters"],
+)
+async def posters(session: SessionDep) -> Sequence[Poster]:
     return session.exec(select(Poster).offset(0).limit(30)).all()
-

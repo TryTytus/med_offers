@@ -5,6 +5,8 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
+    "generate:api:schema": "cd ../backend && uv run python export_openapi.py",
+    "generate:api": "pnpm generate:api:schema && openapi-generator-cli generate -i ../backend/openapi.json -g typescript-fetch -o app/api/generated -c openapi-generator.config.yaml --ignore-file-override openapi-generator.ignore --global-property apiDocs=false,modelDocs=false,apiTests=false,modelTests=false",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc"
   },
@@ -24,6 +26,7 @@
     "styled-components": "^6.6.0"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.42.0",
     "@react-router/dev": "^8.5.1",
     "@tailwindcss/vite": "^4.2.2",
     "@types/node": "^22",
