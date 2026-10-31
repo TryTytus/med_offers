@@ -1,7 +1,7 @@
+from collections.abc import Sequence
 from contextlib import asynccontextmanager
-from typing import Sequence
 
-from database import SessionDep, init_db
+from database import DB, init_db
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from models.poster import Poster
@@ -34,11 +34,19 @@ app.add_middleware(
     allow_methods=["*"],
 )
 
+def query_pagination(page: int, size = 15):
+    if page < 0 or size <= 0:
+        return (0, 15)
+    offset = page * size
+    return (offset, size)
+
+
 @app.get(
     "/posters",
     operation_id="get_posters",
     response_model=Sequence[Poster],
     tags=["posters"],
 )
-async def posters(session: SessionDep) -> Sequence[Poster]:
-    return session.exec(select(Poster).offset(0).limit(30)).all()
+async def posters(db: DB, page: int = 0, size: int = 15) -> Sequence[Poster]:
+    offset, limit = query_pagination(page, size)
+    return db.exec(select(Poster).offset(offset).limit(limit)).all()
