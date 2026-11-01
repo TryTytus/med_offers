@@ -8,7 +8,7 @@ import { useState } from "react";
 
 
 const CustomMain = styled('main')({
-  width: '60%',
+  width: '70%',
   margin: '0px auto',
 })
 

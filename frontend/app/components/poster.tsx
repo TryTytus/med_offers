@@ -1,19 +1,32 @@
-import { Button, CardActions, CardContent, Typography, Card } from "@mui/material";
+import { Button, CardActions, CardContent, Typography, Card, Box } from "@mui/material";
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import type { Poster as PosterModel } from "~/api/generated";
 
-const CustomCard = styled(Card)({
+const SCard = styled(Card)({
   borderRadius: 0,
-  marginBottom: 20
+  marginBottom: 5,
+  display: 'flex',
 })
+
+const SBox = styled(Box)({
+  width: 200,
+  backgroundColor: '#F0F0F0',
+  flexShrink: 0,
+})
+
+const SCardContent = styled(CardContent)({
+  flex: 1,
+})
+
 
 type PosterProps = Pick<PosterModel, "title" | "description">;
 
 function Poster({ title, description }: PosterProps) {
-    return <CustomCard variant="outlined">
+    return <SCard variant="outlined">
+        <SBox />
         <React.Fragment>
-      <CardContent>
+      <SCardContent>
         <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
           Katowice
         </Typography>
@@ -26,13 +39,13 @@ function Poster({ title, description }: PosterProps) {
           <br />
           {'"a benevolent smile"'}
         </Typography>
-      </CardContent>
+      </SCardContent>
       <CardActions>
         <Button size="small">Learn More</Button>
       </CardActions>
     </React.Fragment>
 
-    </CustomCard>
+    </SCard>
 }
 
 export default Poster;
