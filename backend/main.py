@@ -2,7 +2,7 @@ from collections.abc import Sequence
 from contextlib import asynccontextmanager
 
 from database import DB, init_db
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from models.poster import Poster
 from seeder import seed_db
@@ -50,3 +50,16 @@ def query_pagination(page: int, size = 15):
 async def posters(db: DB, page: int = 0, size: int = 15) -> Sequence[Poster]:
     offset, limit = query_pagination(page, size)
     return db.exec(select(Poster).offset(offset).limit(limit)).all()
+
+
+@app.get(
+    "/poster/{id}",
+    operation_id="get_poster",
+    response_model=Poster,
+    tags=["poster"],
+)
+async def get_poster(db: DB, id: int):
+    poster = db.exec(select(Poster).where(Poster.id == id)).first()
+    if poster == None:
+        raise HTTPException(status_code=404, detail="item not found")
+    return poster
