@@ -15,12 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
+  HTTPValidationError,
   Poster,
 } from '../models/index';
 import {
+    HTTPValidationErrorFromJSON,
+    HTTPValidationErrorToJSON,
     PosterFromJSON,
     PosterToJSON,
 } from '../models/index';
+
+export interface GetPostersRequest {
+    page?: number;
+    size?: number;
+}
 
 /**
  * PostersApi - interface
@@ -31,24 +39,28 @@ import {
 export interface PostersApiInterface {
     /**
      * Creates request options for getPosters without sending the request
+     * @param {number} [page] 
+     * @param {number} [size] 
      * @throws {RequiredError}
      * @memberof PostersApiInterface
      */
-    getPostersRequestOpts(): Promise<runtime.RequestOpts>;
+    getPostersRequestOpts(requestParameters: GetPostersRequest): Promise<runtime.RequestOpts>;
 
     /**
      * 
      * @summary Posters
+     * @param {number} [page] 
+     * @param {number} [size] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostersApiInterface
      */
-    getPostersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Poster>>>;
+    getPostersRaw(requestParameters: GetPostersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Poster>>>;
 
     /**
      * Posters
      */
-    getPosters(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Poster>>;
+    getPosters(requestParameters: GetPostersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Poster>>;
 
 }
 
@@ -60,8 +72,16 @@ export class PostersApi extends runtime.BaseAPI implements PostersApiInterface {
     /**
      * Creates request options for getPosters without sending the request
      */
-    async getPostersRequestOpts(): Promise<runtime.RequestOpts> {
+    async getPostersRequestOpts(requestParameters: GetPostersRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['size'] != null) {
+            queryParameters['size'] = requestParameters['size'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -79,8 +99,8 @@ export class PostersApi extends runtime.BaseAPI implements PostersApiInterface {
     /**
      * Posters
      */
-    async getPostersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Poster>>> {
-        const requestOptions = await this.getPostersRequestOpts();
+    async getPostersRaw(requestParameters: GetPostersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Poster>>> {
+        const requestOptions = await this.getPostersRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PosterFromJSON));
@@ -89,8 +109,8 @@ export class PostersApi extends runtime.BaseAPI implements PostersApiInterface {
     /**
      * Posters
      */
-    async getPosters(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Poster>> {
-        const response = await this.getPostersRaw(initOverrides);
+    async getPosters(requestParameters: GetPostersRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Poster>> {
+        const response = await this.getPostersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { useQuery } from "@tanstack/react-query";
 import { postersApi } from "~/api/client";
 import Poster from "~/components/poster";
+import { useState } from "react";
 
 
 const CustomMain = styled('main')({
@@ -27,16 +28,15 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
 
-  
+  let [page, setPage] = useState(0);
 
-
-  const posters = useQuery({
-    queryKey: ['posters'],
-    queryFn: () => postersApi.getPosters(),
+  const {data: posters, refetch} = useQuery({
+    queryKey: ['posters', page],
+    queryFn: () => postersApi.getPosters({ page }),
   })
 
   return <CustomMain>
-      {posters.data?.map((poster, index) => (
+      {posters?.map((poster, index) => (
         <Poster
           key={poster.id}
           title={poster.title}
@@ -45,7 +45,7 @@ export default function Home() {
       ))}
 
       <PaginationParentDiv>
-        <Pagination count={10} variant="outlined" size="large"  />
+        <Pagination onChange={(_, newPage) => setPage(newPage)} page={page}  count={10} variant="outlined" size="large"  />
       </PaginationParentDiv>
   </CustomMain>
 }
