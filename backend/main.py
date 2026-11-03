@@ -56,7 +56,7 @@ async def posters(db: DB, page: int = 0, size: int = 15) -> Sequence[Poster]:
     "/poster/{id}",
     operation_id="get_poster",
     response_model=Poster,
-    tags=["poster"],
+    tags=["posters"],
 )
 async def get_poster(db: DB, id: int):
     poster = db.exec(select(Poster).where(Poster.id == id)).first()

@@ -25,6 +25,10 @@ import {
     PosterToJSON,
 } from '../models/index';
 
+export interface GetPosterRequest {
+    id: number;
+}
+
 export interface GetPostersRequest {
     page?: number;
     size?: number;
@@ -37,6 +41,29 @@ export interface GetPostersRequest {
  * @interface PostersApiInterface
  */
 export interface PostersApiInterface {
+    /**
+     * Creates request options for getPoster without sending the request
+     * @param {number} id 
+     * @throws {RequiredError}
+     * @memberof PostersApiInterface
+     */
+    getPosterRequestOpts(requestParameters: GetPosterRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * 
+     * @summary Get Poster
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PostersApiInterface
+     */
+    getPosterRaw(requestParameters: GetPosterRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Poster>>;
+
+    /**
+     * Get Poster
+     */
+    getPoster(requestParameters: GetPosterRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Poster>;
+
     /**
      * Creates request options for getPosters without sending the request
      * @param {number} [page] 
@@ -68,6 +95,51 @@ export interface PostersApiInterface {
  * 
  */
 export class PostersApi extends runtime.BaseAPI implements PostersApiInterface {
+
+    /**
+     * Creates request options for getPoster without sending the request
+     */
+    async getPosterRequestOpts(requestParameters: GetPosterRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getPoster().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/poster/{id}`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get Poster
+     */
+    async getPosterRaw(requestParameters: GetPosterRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Poster>> {
+        const requestOptions = await this.getPosterRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PosterFromJSON(jsonValue));
+    }
+
+    /**
+     * Get Poster
+     */
+    async getPoster(requestParameters: GetPosterRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Poster> {
+        const response = await this.getPosterRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Creates request options for getPosters without sending the request
