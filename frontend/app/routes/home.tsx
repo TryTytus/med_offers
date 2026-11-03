@@ -7,6 +7,7 @@ import Poster from "~/components/poster";
 import { useState } from "react";
 
 
+
 const CustomMain = styled('main')({
   width: '70%',
   margin: '0px auto',

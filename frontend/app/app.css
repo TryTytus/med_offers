@@ -1,16 +1,20 @@
 
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+  --font-sans: "Roboto", "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 html,
 body {
+
+  font-family: 'Roboto';
   /* @apply bg-white dark:bg-gray-950;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   } */
-   background-color: #f3f3f3;
+
+  background-color: #edf2f2;
+   /* background-color: #f3f3f3; */
 }

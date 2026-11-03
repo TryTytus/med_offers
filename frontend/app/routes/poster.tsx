@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { type Route } from "./+types/poster";
 import { postersApi } from "~/api/client";
 import { styled } from "@mui/system";
-import { Card } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 
 export function loader({ params }: Route.LoaderArgs) {
     const id = Number(params.posterId);
@@ -35,6 +35,7 @@ const SImageCard = styled(Card)({
 const STitleCard = styled(Card)({
     gridArea: 'title-card',
     backgroundColor: 'white',
+    padding: '0 30px',
     height: 500,
     boxShadow: 'none',
     borderRadius: 0,
@@ -45,14 +46,19 @@ export default function Poster({loaderData}: Route.ComponentProps) {
         <SGrid>
   
             <SImageCard>
-
-            {loaderData.id}
-            {loaderData.description}
-            {loaderData.price}
-            {loaderData.title}
             </SImageCard>
 
-            <STitleCard/>
+            
+            <STitleCard>
+                <Typography fontWeight='light' variant="h6" gutterBottom>{loaderData.title ?? ''}</Typography>
+
+
+
+                <Typography fontWeight='' color='#7f7f7f' variant="body2" gutterBottom>{loaderData.description ?? ''}</Typography>
+                {loaderData.price}
+                
+
+            </STitleCard>
         </SGrid>
     </>
 }
