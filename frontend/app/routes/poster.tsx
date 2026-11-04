@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { type Route } from "./+types/poster";
 import { postersApi } from "~/api/client";
 import { styled } from "@mui/system";
@@ -25,7 +24,16 @@ const SGrid = styled("div")({
 });
 
 const SImageCard = styled(Card)({
+  padding: 20,
   gridArea: "image-card",
+  display: 'grid',
+  gridTemplateAreas: `
+    "left-big-image top-small-image"
+    "left-big-image bottom-small-image"
+  `,
+  gridTemplateColumns: "3fr 2fr",
+  gridTemplateRows: "1fr 1fr",
+  gap: 12,
   backgroundColor: "white",
   height: 500,
   boxShadow: "none",
@@ -52,11 +60,19 @@ const SButton = styled(Button)({
     borderRadius: 0
 })
 
+const SImage = styled('div')({
+    backgroundColor: '#EEEFEF'
+})
+
 export default function Poster({ loaderData }: Route.ComponentProps) {
   return (
     <>
       <SGrid>
-        <SImageCard></SImageCard>
+        <SImageCard>
+            <SImage style={{gridArea: 'left-big-image'}}></SImage>
+            <SImage style={{gridArea: 'top-small-image'}}></SImage>
+            <SImage style={{gridArea: 'bottom-small-image'}}></SImage>
+        </SImageCard>
 
         <STitleCard>
           <STextBox>
