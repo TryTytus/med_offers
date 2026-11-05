@@ -1,6 +1,6 @@
 import { type Route } from "./+types/poster";
 import { postersApi } from "~/api/client";
-import { styled } from "@mui/system";
+import { Stack, styled } from "@mui/system";
 import { Button, Card, Typography } from "@mui/material";
 
 export function loader({ params }: Route.LoaderArgs) {
@@ -64,15 +64,26 @@ const SImage = styled('div')({
     backgroundColor: '#EEEFEF'
 })
 
+const SDetails = styled('div')({
+    backgroundColor: 'white',
+    height: 400,
+    marginBottom: 50
+})
+
 export default function Poster({ loaderData }: Route.ComponentProps) {
   return (
     <>
+    
       <SGrid>
+        <Stack gap={3}>
         <SImageCard>
             <SImage style={{gridArea: 'left-big-image'}}></SImage>
             <SImage style={{gridArea: 'top-small-image'}}></SImage>
             <SImage style={{gridArea: 'bottom-small-image'}}></SImage>
         </SImageCard>
+        <SDetails>
+        </SDetails> 
+        </Stack>
 
         <STitleCard>
           <STextBox>
