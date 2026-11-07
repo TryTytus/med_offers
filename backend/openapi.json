@@ -148,15 +148,20 @@
             ],
             "title": "Price"
           },
-          "description": {
+          "short_description": {
             "type": "string",
-            "title": "Description"
+            "title": "Short Description"
+          },
+          "long_description": {
+            "type": "string",
+            "title": "Long Description"
           }
         },
         "type": "object",
         "required": [
           "title",
-          "description"
+          "short_description",
+          "long_description"
         ],
         "title": "Poster"
       },

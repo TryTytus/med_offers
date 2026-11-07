@@ -26,7 +26,7 @@ const SGrid = styled("div")({
 const SImageCard = styled(Card)({
   padding: 20,
   gridArea: "image-card",
-  display: 'grid',
+  display: "grid",
   gridTemplateAreas: `
     "left-big-image top-small-image"
     "left-big-image bottom-small-image"
@@ -50,39 +50,57 @@ const STitleCard = styled(Card)({
 });
 
 const STextBox = styled("div")({
-    display: 'grid',
-    alignItems: 'start',
-    padding: '30px 20px',
-    gap: 15
+  display: "grid",
+  alignItems: "start",
+  padding: "30px 20px",
+  gap: 15,
 });
 
 const SButton = styled(Button)({
-    borderRadius: 0
-})
+  borderRadius: 0,
+});
 
-const SImage = styled('div')({
-    backgroundColor: '#EEEFEF'
-})
+const SImage = styled("div")({
+  backgroundColor: "#EEEFEF",
+});
 
-const SDetails = styled('div')({
-    backgroundColor: 'white',
-    height: 400,
-    marginBottom: 50
-})
+const SDetails = styled("div")({
+  backgroundColor: "white",
+  height: 400,
+  marginBottom: 50,
+  padding: 40,
+});
 
 export default function Poster({ loaderData }: Route.ComponentProps) {
   return (
     <>
-    
       <SGrid>
         <Stack gap={3}>
-        <SImageCard>
-            <SImage style={{gridArea: 'left-big-image'}}></SImage>
-            <SImage style={{gridArea: 'top-small-image'}}></SImage>
-            <SImage style={{gridArea: 'bottom-small-image'}}></SImage>
-        </SImageCard>
-        <SDetails>
-        </SDetails> 
+          <SImageCard>
+            <SImage style={{ gridArea: "left-big-image" }}></SImage>
+            <SImage style={{ gridArea: "top-small-image" }}></SImage>
+            <SImage style={{ gridArea: "bottom-small-image" }}></SImage>
+          </SImageCard>
+          <SDetails>
+            <Typography variant="h5" letterSpacing={1.2} fontWeight={600}>
+              Opis
+            </Typography>
+            <Typography
+              letterSpacing={0.5}
+              color="#7f7f7f"
+              fontWeight={300}
+              style={{
+                marginTop: 10,
+                wordSpacing: -1.1,
+                transform: "scale(0.95, 1.05)",
+                transformOrigin: "top left",
+              }}
+            //   align="justify"
+              variant="body1"
+            >
+              {loaderData.long_description}
+            </Typography>
+          </SDetails>
         </Stack>
 
         <STitleCard>
@@ -96,10 +114,10 @@ export default function Poster({ loaderData }: Route.ComponentProps) {
               variant="body2"
               gutterBottom
             >
-              {loaderData.description ?? ""}
+              {loaderData.short_description ?? ""}
             </Typography>
             <Typography variant="h5" fontWeight="500">
-                {loaderData.price},00 zł
+              {loaderData.price},00 zł
             </Typography>
             <SButton variant="contained">Buy</SButton>
             <SButton variant="outlined">Ask</SButton>

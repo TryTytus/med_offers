@@ -42,7 +42,13 @@ export interface Poster {
      * @type {string}
      * @memberof Poster
      */
-    description: string;
+    short_description: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Poster
+     */
+    long_description: string;
 }
 
 /**
@@ -50,7 +56,8 @@ export interface Poster {
  */
 export function instanceOfPoster(value: object): value is Poster {
     if (!('title' in value) || value['title'] === undefined) return false;
-    if (!('description' in value) || value['description'] === undefined) return false;
+    if (!('short_description' in value) || value['short_description'] === undefined) return false;
+    if (!('long_description' in value) || value['long_description'] === undefined) return false;
     return true;
 }
 
@@ -67,7 +74,8 @@ export function PosterFromJSONTyped(json: any, ignoreDiscriminator: boolean): Po
         'id': json['id'] == null ? undefined : json['id'],
         'title': json['title'],
         'price': json['price'] == null ? undefined : json['price'],
-        'description': json['description'],
+        'short_description': json['short_description'],
+        'long_description': json['long_description'],
     };
 }
 
@@ -85,7 +93,8 @@ export function PosterToJSONTyped(value?: Poster | null, ignoreDiscriminator: bo
         'id': value['id'],
         'title': value['title'],
         'price': value['price'],
-        'description': value['description'],
+        'short_description': value['short_description'],
+        'long_description': value['long_description'],
     };
 }
 

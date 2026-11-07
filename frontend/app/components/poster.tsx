@@ -20,9 +20,9 @@ const SCardContent = styled(CardContent)({
 })
 
 
-type PosterProps = Pick<PosterModel, "title" | "description">;
+type PosterProps = Pick<PosterModel, "title" | "short_description">;
 
-function Poster({ title, description }: PosterProps) {
+function Poster({ title, short_description}: PosterProps) {
     return <SCard variant="outlined">
         <SBox />
         <React.Fragment>
@@ -35,7 +35,7 @@ function Poster({ title, description }: PosterProps) {
         </Typography>
         <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>Kategoria</Typography>
         <Typography variant="body2">
-          {description}
+          {short_description}
           <br />
           {'"a benevolent smile"'}
         </Typography>

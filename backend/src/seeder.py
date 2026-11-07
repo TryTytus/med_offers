@@ -13,7 +13,8 @@ def seed_db():
         session.add_all([
                 Poster(
                     title=fake.name(),
-                    description=fake.text(),
+                    short_description=fake.text(),
+                    long_description=' '.join(fake.words(nb=120)),
                     price=fake.random_int(0, 1000)
                 ) for _ in range(1000)
             ])
